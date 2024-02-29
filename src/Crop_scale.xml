@@ -1,0 +1,168 @@
+<dv version="2.0">
+    <node name="mainloop" path="/mainloop/">
+        <attr key="_guiSupport" type="string">{"lastDeployedHash":"7ead728579c0d13bf99baf62bc1150eea433f94b"}</attr>
+        <node name="_visualizer_accumulator___frames_acdfd5731dc44934bee31c0644286823" path="/mainloop/_visualizer_accumulator___frames_acdfd5731dc44934bee31c0644286823/">
+            <attr key="_guiSupport" type="string">{"visualizerX":0,"visualizerY":0,"size":2,"minimized":false,"boxX":400.0,"boxY":550.0}</attr>
+            <attr key="_priorityAttributes" type="string">compression,ipAddress,portNumber</attr>
+            <attr key="compression" type="string">NONE</attr>
+            <attr key="ipAddress" type="string">127.0.0.1</attr>
+            <attr key="logLevel" type="string">INFO</attr>
+            <attr key="maxConcurrentConnections" type="int">10</attr>
+            <attr key="maxConnectionsBacklog" type="int">5</attr>
+            <attr key="maxDataBacklog" type="int">5</attr>
+            <attr key="moduleLibrary" type="string">dv_output_net_tcp_server</attr>
+            <attr key="portNumber" type="int">50533</attr>
+            <attr key="running" type="bool">false</attr>
+            <attr key="timeout" type="long">0</attr>
+            <node name="inputs" path="/mainloop/_visualizer_accumulator___frames_acdfd5731dc44934bee31c0644286823/inputs/">
+                <node name="output0" path="/mainloop/_visualizer_accumulator___frames_acdfd5731dc44934bee31c0644286823/inputs/output0/">
+                    <attr key="from" type="string">accumulator[frames]</attr>
+                </node>
+            </node>
+        </node>
+        <node name="_visualizer_capture___imu_0a0aec513ad64e98b48078fd960bda3f" path="/mainloop/_visualizer_capture___imu_0a0aec513ad64e98b48078fd960bda3f/">
+            <attr key="_guiSupport" type="string">{"visualizerX":0,"visualizerY":0,"size":2,"minimized":false,"boxX":400.0,"boxY":550.0}</attr>
+            <attr key="_priorityAttributes" type="string">compression,ipAddress,portNumber</attr>
+            <attr key="compression" type="string">NONE</attr>
+            <attr key="ipAddress" type="string">127.0.0.1</attr>
+            <attr key="logLevel" type="string">INFO</attr>
+            <attr key="maxConcurrentConnections" type="int">10</attr>
+            <attr key="maxConnectionsBacklog" type="int">5</attr>
+            <attr key="maxDataBacklog" type="int">5</attr>
+            <attr key="moduleLibrary" type="string">dv_output_net_tcp_server</attr>
+            <attr key="portNumber" type="int">50531</attr>
+            <attr key="running" type="bool">false</attr>
+            <attr key="timeout" type="long">0</attr>
+            <node name="inputs" path="/mainloop/_visualizer_capture___imu_0a0aec513ad64e98b48078fd960bda3f/inputs/">
+                <node name="output0" path="/mainloop/_visualizer_capture___imu_0a0aec513ad64e98b48078fd960bda3f/inputs/output0/">
+                    <attr key="from" type="string">capture[imu]</attr>
+                </node>
+            </node>
+        </node>
+        <node name="_visualizer_crop_scale___frames_21f1708074874180b51eeea39e818b17" path="/mainloop/_visualizer_crop_scale___frames_21f1708074874180b51eeea39e818b17/">
+            <attr key="_guiSupport" type="string">{"visualizerX":0,"visualizerY":4,"size":7,"minimized":false,"boxX":400.0,"boxY":550.0}</attr>
+            <attr key="_priorityAttributes" type="string">compression,ipAddress,portNumber</attr>
+            <attr key="compression" type="string">NONE</attr>
+            <attr key="ipAddress" type="string">127.0.0.1</attr>
+            <attr key="logLevel" type="string">INFO</attr>
+            <attr key="maxConcurrentConnections" type="int">10</attr>
+            <attr key="maxConnectionsBacklog" type="int">5</attr>
+            <attr key="maxDataBacklog" type="int">5</attr>
+            <attr key="moduleLibrary" type="string">dv_output_net_tcp_server</attr>
+            <attr key="portNumber" type="int">50529</attr>
+            <attr key="running" type="bool">false</attr>
+            <attr key="timeout" type="long">0</attr>
+            <node name="inputs" path="/mainloop/_visualizer_crop_scale___frames_21f1708074874180b51eeea39e818b17/inputs/">
+                <node name="output0" path="/mainloop/_visualizer_crop_scale___frames_21f1708074874180b51eeea39e818b17/inputs/output0/">
+                    <attr key="from" type="string">crop_scale[frames]</attr>
+                </node>
+            </node>
+        </node>
+        <node name="_visualizer_noiseFilter___events_b7a5c4c69a744d32b3eecabcb15b00de" path="/mainloop/_visualizer_noiseFilter___events_b7a5c4c69a744d32b3eecabcb15b00de/">
+            <attr key="_guiSupport" type="string">{"visualizerX":10,"visualizerY":4,"size":6,"minimized":false,"boxX":400.0,"boxY":550.0}</attr>
+            <attr key="_priorityAttributes" type="string">compression,ipAddress,portNumber</attr>
+            <attr key="compression" type="string">NONE</attr>
+            <attr key="ipAddress" type="string">127.0.0.1</attr>
+            <attr key="logLevel" type="string">INFO</attr>
+            <attr key="maxConcurrentConnections" type="int">10</attr>
+            <attr key="maxConnectionsBacklog" type="int">5</attr>
+            <attr key="maxDataBacklog" type="int">5</attr>
+            <attr key="moduleLibrary" type="string">dv_output_net_tcp_server</attr>
+            <attr key="portNumber" type="int">50534</attr>
+            <attr key="running" type="bool">false</attr>
+            <attr key="timeout" type="long">0</attr>
+            <node name="inputs" path="/mainloop/_visualizer_noiseFilter___events_b7a5c4c69a744d32b3eecabcb15b00de/inputs/">
+                <node name="output0" path="/mainloop/_visualizer_noiseFilter___events_b7a5c4c69a744d32b3eecabcb15b00de/inputs/output0/">
+                    <attr key="from" type="string">noiseFilter[events]</attr>
+                </node>
+            </node>
+        </node>
+        <node name="accumulator" path="/mainloop/accumulator/">
+            <attr key="_guiSupport" type="string">{"boxX":100.0,"boxY":400.0}</attr>
+            <attr key="_priorityAttributes" type="string">accumulationTime</attr>
+            <attr key="accumulationNumber" type="int">100000</attr>
+            <attr key="accumulationTime" type="int">33</attr>
+            <attr key="colorDemosaicing" type="bool">false</attr>
+            <attr key="decayFunction" type="string">Exponential</attr>
+            <attr key="decayParam" type="double">1000000.0</attr>
+            <attr key="eventContribution" type="float">0.15</attr>
+            <attr key="logLevel" type="string">INFO</attr>
+            <attr key="maxPotential" type="float">1.0</attr>
+            <attr key="minPotential" type="float">0.0</attr>
+            <attr key="moduleLibrary" type="string">dv_accumulator</attr>
+            <attr key="neutralPotential" type="float">0.0</attr>
+            <attr key="rectifyPolarity" type="bool">false</attr>
+            <attr key="running" type="bool">true</attr>
+            <attr key="sliceMethod" type="string">TIME</attr>
+            <attr key="synchronousDecay" type="bool">false</attr>
+            <node name="inputs" path="/mainloop/accumulator/inputs/">
+                <node name="events" path="/mainloop/accumulator/inputs/events/">
+                    <attr key="from" type="string">crop_scale[events]</attr>
+                </node>
+            </node>
+        </node>
+        <node name="capture" path="/mainloop/capture/">
+            <attr key="_guiSupport" type="string">{"boxX":350.0,"boxY":0.0}</attr>
+            <attr key="_priorityAttributes" type="string">file,loop</attr>
+            <attr key="file" type="string">C:\Users\roger\Downloads\DAVIS\Proj\dvSave-2024_02_22_15_26_03.aedat4</attr>
+            <attr key="logLevel" type="string">INFO</attr>
+            <attr key="loop" type="bool">false</attr>
+            <attr key="mode" type="string">timeInterval</attr>
+            <attr key="moduleLibrary" type="string">dv_input_file</attr>
+            <attr key="pause" type="bool">false</attr>
+            <attr key="running" type="bool">true</attr>
+            <attr key="seek" type="long">81070000</attr>
+            <attr key="seekEnd" type="long">88698814</attr>
+            <attr key="seekStart" type="long">0</attr>
+            <attr key="timeDelay" type="long">10000</attr>
+            <attr key="timeInterval" type="long">10000</attr>
+        </node>
+        <node name="crop_scale" path="/mainloop/crop_scale/">
+            <attr key="_guiSupport" type="string">{"boxX":250.0,"boxY":200.0}</attr>
+            <attr key="_priorityAttributes" type="string">cropHeight,cropOffsetX,cropOffsetY,cropWidth,resize,resizeHeight,resizeWidth</attr>
+            <attr key="cropHeight" type="int">80</attr>
+            <attr key="cropOffsetX" type="int">0</attr>
+            <attr key="cropOffsetY" type="int">80</attr>
+            <attr key="cropWidth" type="int">346</attr>
+            <attr key="logLevel" type="string">INFO</attr>
+            <attr key="moduleLibrary" type="string">dv_crop_scale</attr>
+            <attr key="resize" type="bool">true</attr>
+            <attr key="resizeHeight" type="int">160</attr>
+            <attr key="resizeWidth" type="int">346</attr>
+            <attr key="running" type="bool">true</attr>
+            <node name="inputs" path="/mainloop/crop_scale/inputs/">
+                <node name="events" path="/mainloop/crop_scale/inputs/events/">
+                    <attr key="from" type="string">capture[events]</attr>
+                </node>
+                <node name="frames" path="/mainloop/crop_scale/inputs/frames/">
+                    <attr key="from" type="string">capture[frames]</attr>
+                </node>
+            </node>
+        </node>
+        <node name="noiseFilter" path="/mainloop/noiseFilter/">
+            <attr key="_guiSupport" type="string">{"boxX":600.0,"boxY":300.0}</attr>
+            <attr key="_priorityAttributes" type="string">backgroundActivityEnable</attr>
+            <attr key="backgroundActivityCheckPolarity" type="bool">false</attr>
+            <attr key="backgroundActivityEnable" type="bool">false</attr>
+            <attr key="backgroundActivitySupportMax" type="int">8</attr>
+            <attr key="backgroundActivitySupportMin" type="int">1</attr>
+            <attr key="backgroundActivityTime" type="int">2000</attr>
+            <attr key="backgroundActivityTwoLevels" type="bool">false</attr>
+            <attr key="hotPixelCount" type="int">10000</attr>
+            <attr key="hotPixelEnable" type="bool">false</attr>
+            <attr key="hotPixelLearn" type="bool">false</attr>
+            <attr key="hotPixelList" type="string"/>
+            <attr key="hotPixelTime" type="int">1000000</attr>
+            <attr key="logLevel" type="string">INFO</attr>
+            <attr key="moduleLibrary" type="string">dv_dvsnoisefilter</attr>
+            <attr key="refractoryPeriodEnable" type="bool">true</attr>
+            <attr key="refractoryPeriodTime" type="int">100</attr>
+            <attr key="running" type="bool">true</attr>
+            <node name="inputs" path="/mainloop/noiseFilter/inputs/">
+                <node name="events" path="/mainloop/noiseFilter/inputs/events/">
+                    <attr key="from" type="string">crop_scale[events]</attr>
+                </node>
+            </node>
+        </node>
+    </node>
+</dv>
