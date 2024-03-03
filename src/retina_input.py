@@ -1,11 +1,11 @@
 import dv_processing as dv
 from datetime import timedelta
-from src.retina_process import SpikingNeurons
-from src.retina_visualizer import SlicingVisualizer
+from retina_process import SpikingNeurons
+from retina_visualizer import SlicingVisualizer
 import matplotlib.pyplot as plt
 
 # Input store:
-reader = dv.io.MonoCameraRecording("../data/dvSave-2024_02_22_15_26_03.aedat4") # cameraSerial)
+reader = dv.io.MonoCameraRecording("data/dvSave-2024_02_22_15_26_03.aedat4") # cameraSerial)
 
 # Process store: Initialize a slicer
 slicer = dv.EventStreamSlicer()
@@ -29,7 +29,7 @@ def slicer_callback(event: dv.EventStore):
     left_events = layer_left.generateEvents()
 
     print(f"left_events: {len(left_events):3d}, right_events: {len(right_events):3d}")
-    #visualizer.show_comparision(left_events, right_events)
+    visualizer.show_comparision(left_events, right_events)
 
 
 slicer.doEveryTimeInterval(timedelta(milliseconds=20), slicer_callback)
@@ -53,6 +53,9 @@ while reader.isRunning():
     # Receive events
     events = reader.getNextEventBatch()
 
+    #image = reader.getNextFrame()
+    #plt.imshow(image)
+    #plt.pause(0.001)
 
     # Check if anything was received
     if events is not None:

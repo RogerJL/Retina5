@@ -3,23 +3,23 @@ from datetime import timedelta
 import numpy as np
 import matplotlib.pyplot as plt
 
-SYN_WEIGHT = 1
-DISCHARGE = 0.80
-ACTIVATION_THRESHOLD = 1.5
+SYN_WEIGHT = 0.9
+DISCHARGE = 0.50
+ACTIVATION_THRESHOLD = 1
 RESET_LEVEL = 0
-INHIBIT = -10
+INHIBIT_WEIGHT = -5
 
 MAX_DT = 1000  # Timestamp ticks
 
 class SpikingNeurons:
     def __init__(self, shape,
                  syn_weight=SYN_WEIGHT, discharge=DISCHARGE, reset_level=RESET_LEVEL,
-                 inhibit_level=INHIBIT, inhibit_x_offset=0, inhibit_y_delta=0):
+                 inhibit_weight=INHIBIT_WEIGHT, inhibit_x_offset=0, inhibit_y_delta=0):
         # Constants
         self._syn_weight = syn_weight
         self._discharge = discharge
         self._reset_level = reset_level
-        self._inhibit_level = inhibit_level
+        self._inhibit_weight = inhibit_weight
 
         # Open any camera
         self._neurons = np.zeros(shape=(shape[0] + abs(inhibit_x_offset), shape[1] + 2 * inhibit_y_delta))
@@ -61,7 +61,7 @@ class SpikingNeurons:
             if self._inhibit_x_offset:
                 for dx in range(self._inhibit_x_offset, 0, 1 if self._inhibit_x_offset < 0 else -1):
                     for dy in range(-self._inhibit_y_delta, self._inhibit_y_delta + 1):
-                        self._neurons[e_x + self._x_offset + dx, e_y + self._y_offset + dy] += self._inhibit_level
+                        self._neurons[e_x + self._x_offset + dx, e_y + self._y_offset + dy] += self._inhibit_weight
             next_timestamp = event.timestamp()
             # Do not process them one by one TODO: is one by one processing faster? Considering push_back is one by one
             if next_timestamp - self._prev_timestamp > MAX_DT:
