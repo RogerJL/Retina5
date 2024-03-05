@@ -19,7 +19,7 @@ layer1 = SpikingNeurons(shape=shape)
 layer_left = SpikingNeurons(shape=shape, syn_weight=2, inhibit_x_offset=3, inhibit_y_delta=1)
 layer_right = SpikingNeurons(shape=shape, syn_weight=2, inhibit_x_offset=-3, inhibit_y_delta=1)
 
-labels = open("labels.txt", "wt")
+#labels = open("labels.txt", "wt")
 
 # Register a callback every xx milliseconds
 visualizer = SlicingVisualizer(shape)
@@ -32,12 +32,15 @@ def slicer_callback(events: dv.EventStore):
 
     left_ = len(left_events)
     right_ = len(right_events)
-    first = min(left_events.getLowestTime(), right_events.getLowestTime())
-    last = max(left_events.getHighestTime(), right_events.getHighestTime())
-    out = f"{first}\t{last}\t{last-first} left_events: {left_:3d}, right_events: {right_ :3d} \t{'Left' if left_ > 2 * right_ else 'Right' if right_ > 2 * left_ else '-'}"
-    #print(out)
-    labels.write(out + "\n")
-    #visualizer.show_comparision(left_events, right_events)
+    if right_ and left_:
+        first = (left_events.getLowestTime() if right_ == 0 else
+                 right_events.getLowestTime() if left_ == 0 else
+                 max(left_events.getLowestTime(), right_events.getLowestTime()))
+        last = max(left_events.getHighestTime(), right_events.getHighestTime())
+        out = f"{first:20d}\t{last:20d}\t{last-first:7d} \tleft_events: {left_:3d} \tright_events: {right_ :3d} \t{'Left' if left_ > 2 * right_ else 'Right' if right_ > 2 * left_ else '-'}"
+        print(out)
+        #labels.write(out + "\n")
+    visualizer.show_comparision(left_events, right_events)
 
 
 slicer.doEveryTimeInterval(timedelta(milliseconds=20), slicer_callback)
@@ -80,4 +83,4 @@ while reader.isRunning():
         slicer.accept(events)
 #        slicer_callback(events)
 
-labels.close()
+#labels.close()

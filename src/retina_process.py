@@ -4,10 +4,10 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 SYN_WEIGHT = 0.99
-DISCHARGE = 0.50
+DISCHARGE = 0.70
 ACTIVATION_THRESHOLD = 1
 RESET_LEVEL = -0.1
-INHIBIT_WEIGHT = -5
+INHIBIT_WEIGHT = -2
 
 MAX_DT = 500  # Timestamp ticks
 
@@ -57,25 +57,21 @@ class SpikingNeurons:
             e_x = event.x()
             e_y = event.y()
             # unused e_p = event.polarity()
-            self._neurons[e_x + self._x_offset, e_y + self._y_offset] += self._syn_weight
+            v = self._neurons[e_x + self._x_offset, e_y + self._y_offset] + self._syn_weight
+            if v > ACTIVATION_THRESHOLD:
+                self._spike_store.push_back(event.timestamp(), e_x, e_y, True)
+                v = 0
+            self._neurons[e_x + self._x_offset, e_y + self._y_offset] = v
             if self._inhibit_x_offset:
                 step = 1 if self._inhibit_x_offset < 0 else -1
                 for dy in range(-self._inhibit_y_delta, self._inhibit_y_delta + 1):
-                    for dx in range(self._inhibit_x_offset, 0, step):
+                    for dx in range(self._inhibit_x_offset, -step, step):
                         self._neurons[e_x + self._x_offset + dx, e_y + self._y_offset + dy] += self._inhibit_weight
             next_timestamp = event.timestamp()
-            # Do not process them one by one TODO: is one by one processing faster? Considering push_back is one by one
+            # Discharge all
             if next_timestamp - self._prev_timestamp > MAX_DT:
-                spiking = np.where(self._neurons > ACTIVATION_THRESHOLD)
-                self._neurons[spiking] = RESET_LEVEL
-                for x, y in zip(spiking[0], spiking[1]):
-                    self._spike_store.push_back(next_timestamp, x - self._x_offset, y - self._y_offset, True)
                 self.discharge(next_timestamp)
 
-        spiking = np.where(self._neurons > ACTIVATION_THRESHOLD)
-        self._neurons[spiking] = RESET_LEVEL
-        for x, y in zip(spiking[0], spiking[1]):
-            self._spike_store.push_back(next_timestamp, x - self._x_offset, y - self._y_offset, True)
         #        if len(spiking[0]) or len(spiking[1]):
         #            print(prev_timestamp, spiking)
 
