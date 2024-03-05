@@ -17,7 +17,7 @@ class SlicingVisualizer:
         left_image = self._visualizer.generateImage(left_events)
         right_image = self._visualizer.generateImage(right_events)
         plt.imshow(cv.vconcat([left_image, right_image]))
-        plt.title("Left <-----> Right")
+        plt.title("Left / Right")
         #plt.show(block=False)
         #plt.draw()
         plt.pause(0.001)

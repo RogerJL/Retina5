@@ -3,13 +3,13 @@ from datetime import timedelta
 import numpy as np
 import matplotlib.pyplot as plt
 
-SYN_WEIGHT = 0.9
+SYN_WEIGHT = 0.99
 DISCHARGE = 0.50
 ACTIVATION_THRESHOLD = 1
-RESET_LEVEL = 0
+RESET_LEVEL = -0.1
 INHIBIT_WEIGHT = -5
 
-MAX_DT = 1000  # Timestamp ticks
+MAX_DT = 500  # Timestamp ticks
 
 class SpikingNeurons:
     def __init__(self, shape,
@@ -59,8 +59,9 @@ class SpikingNeurons:
             # unused e_p = event.polarity()
             self._neurons[e_x + self._x_offset, e_y + self._y_offset] += self._syn_weight
             if self._inhibit_x_offset:
-                for dx in range(self._inhibit_x_offset, 0, 1 if self._inhibit_x_offset < 0 else -1):
-                    for dy in range(-self._inhibit_y_delta, self._inhibit_y_delta + 1):
+                step = 1 if self._inhibit_x_offset < 0 else -1
+                for dy in range(-self._inhibit_y_delta, self._inhibit_y_delta + 1):
+                    for dx in range(self._inhibit_x_offset, 0, step):
                         self._neurons[e_x + self._x_offset + dx, e_y + self._y_offset + dy] += self._inhibit_weight
             next_timestamp = event.timestamp()
             # Do not process them one by one TODO: is one by one processing faster? Considering push_back is one by one
@@ -87,7 +88,7 @@ class SpikingNeurons:
             # cv.imshow("Preview", self._neurons.T)
             plt.imshow(self._neurons.T)
             plt.title("Right" if self._inhibit_x_offset < 0 else "Left" if self._inhibit_x_offset > 0 else "Input")
-            plt.show()
+            plt.pause(0.01)
 
             self._plot_timestamp = next_timestamp
 
