@@ -83,14 +83,8 @@ class SpikingNeurons:
                     for dx in range(self._inhibit_x_offset, -step, step):
                         self._neurons_i[e_x + self._x_offset + dx, e_y + self._y_offset + dy] += self._inhibit_weight
             next_timestamp = event.timestamp()
-            # Discharge all
-            if next_timestamp - self._prev_timestamp > MAX_DT:
-                self.dynamic_simulation_step(next_timestamp)
 
-        #        if len(spiking[0]) or len(spiking[1]):
-        #            print(prev_timestamp, spiking)
-
-        # Discharge
+        # Dynamic simulation and spike detection
         self.dynamic_simulation_step(next_timestamp)
 
         # Display

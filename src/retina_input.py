@@ -17,8 +17,8 @@ output_events = dv.EventStore()
 
 our_shape = (shape[0] // 2, shape[1] // 2)
 layer1 = SpikingNeurons(shape=shape, syn_weight=0.05, tau_syn=0.1, tau_m=0.1)
-layer_left = SpikingNeurons(shape=shape, syn_weight=3, inhibit_weight=-1.6, tau_syn=0.2, tau_m=0.5, inhibit_x_offset=3, inhibit_y_delta=1)
-layer_right = SpikingNeurons(shape=shape, syn_weight=3, inhibit_weight=-1.6, tau_syn=0.2, tau_m=0.5, inhibit_x_offset=-3, inhibit_y_delta=1)
+layer_left = SpikingNeurons(shape=shape, syn_weight=2, inhibit_weight=-1.6, tau_syn=0.2, tau_m=0.5, inhibit_x_offset=3, inhibit_y_delta=1)
+layer_right = SpikingNeurons(shape=shape, syn_weight=2, inhibit_weight=-1.6, tau_syn=0.2, tau_m=0.5, inhibit_x_offset=-3, inhibit_y_delta=1)
 
 #labels = open("labels.txt", "wt")
 
@@ -48,7 +48,7 @@ def slicer_callback(events_in: dv.EventStore):
     visualizer.show_comparision([events_in, events, left_events, right_events])
 
 
-slicer.doEveryTimeInterval(timedelta(milliseconds=10), slicer_callback)
+slicer.doEveryTimeInterval(timedelta(milliseconds=50), slicer_callback)
 
 # Find start time
 while reader.isRunning():
