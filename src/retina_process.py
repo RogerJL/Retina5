@@ -78,6 +78,7 @@ class SpikingNeurons:
             self._neurons_i[e_x + self._x_offset, e_y + self._y_offset] += self._syn_weight
             if self._inhibit_x_offset:
                 step = 1 if self._inhibit_x_offset < 0 else -1
+                self._neurons_i[e_x + self._x_offset + 1, e_y + self._y_offset] += self._syn_weight
                 for dy in range(-self._inhibit_y_delta, self._inhibit_y_delta + 1):
                     for dx in range(self._inhibit_x_offset, -step, step):
                         self._neurons_i[e_x + self._x_offset + dx, e_y + self._y_offset + dy] += self._inhibit_weight
