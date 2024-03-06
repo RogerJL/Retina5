@@ -4,7 +4,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 SYN_WEIGHT = 0.99
-DISCHARGE = 0.70
+DISCHARGE = 0.70  # 1/tau_m
 ACTIVATION_THRESHOLD = 1
 RESET_LEVEL = -0.1
 INHIBIT_WEIGHT = -2
@@ -43,7 +43,7 @@ class SpikingNeurons:
     def init_callback(self, first_timestamp):
         self._prev_timestamp = first_timestamp
 
-    def discharge(self, next_ts):
+    def dynamic_simulation_step(self, next_ts):
         dt = 1e-6 * (next_ts - self._prev_timestamp)
         self._neurons -= dt * self._discharge * self._neurons
         self._prev_timestamp = next_ts
@@ -70,13 +70,13 @@ class SpikingNeurons:
             next_timestamp = event.timestamp()
             # Discharge all
             if next_timestamp - self._prev_timestamp > MAX_DT:
-                self.discharge(next_timestamp)
+                self.dynamic_simulation_step(next_timestamp)
 
         #        if len(spiking[0]) or len(spiking[1]):
         #            print(prev_timestamp, spiking)
 
         # Discharge
-        self.discharge(next_timestamp)
+        self.dynamic_simulation_step(next_timestamp)
 
         # Display
         if False:  # next_timestamp - self._plot_timestamp > 1e6:
