@@ -15,15 +15,17 @@ polarity = dv.EventPolarityFilter(False)
 region = dv.EventRegionFilter((0, 0, shape[0], shape[1]))  # Bad pixels around (231, 202)
 output_events = dv.EventStore()
 
-layer1 = SpikingNeurons(shape=shape)
-layer_left = SpikingNeurons(shape=shape, syn_weight=2, inhibit_x_offset=3, inhibit_y_delta=1)
-layer_right = SpikingNeurons(shape=shape, syn_weight=2, inhibit_x_offset=-3, inhibit_y_delta=1)
+layer1 = SpikingNeurons(shape=shape, syn_weight=0.1, tau_syn=0.1, tau_m=0.1)
+layer_left = SpikingNeurons(shape=shape, syn_weight=3, inhibit_weight=-1.6, tau_syn=0.2, tau_m=0.5, inhibit_x_offset=3, inhibit_y_delta=1)
+layer_right = SpikingNeurons(shape=shape, syn_weight=3, inhibit_weight=-1.6, tau_syn=0.2, tau_m=0.5, inhibit_x_offset=-3, inhibit_y_delta=1)
 
 #labels = open("labels.txt", "wt")
 
 # Register a callback every xx milliseconds
 visualizer = SlicingVisualizer(shape)
 def slicer_callback(events: dv.EventStore):
+#    visualizer.show_comparision(events, events)
+
     layer_right.accept(events)
     right_events = layer_right.generateEvents()
 
@@ -32,12 +34,12 @@ def slicer_callback(events: dv.EventStore):
 
     left_ = len(left_events)
     right_ = len(right_events)
-    if right_ and left_:
+    if right_ or left_:
         first = (left_events.getLowestTime() if right_ == 0 else
                  right_events.getLowestTime() if left_ == 0 else
                  max(left_events.getLowestTime(), right_events.getLowestTime()))
         last = max(left_events.getHighestTime(), right_events.getHighestTime())
-        out = f"{first:20d}\t{last:20d}\t{last-first:7d} \tleft_events: {left_:3d} \tright_events: {right_ :3d} \t{'Left' if left_ > 2 * right_ else 'Right' if right_ > 2 * left_ else '-'}"
+        out = f"{first:20d}\t{last:20d}\t{last-first:7d} \tleft_events: {left_:3d} \tright_events: {right_ :3d} \t{'Left' if left_ > max(10, 2 * right_) else 'Right' if right_ > max(10, 2 * left_) else '-'}"
         print(out)
         #labels.write(out + "\n")
     visualizer.show_comparision(left_events, right_events)
