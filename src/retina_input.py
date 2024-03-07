@@ -46,7 +46,7 @@ def slicer_callback(events_in: dv.EventStore):
     visualizer.show_comparision([events_in, events, left_events, right_events])
 
 
-slicer.doEveryTimeInterval(timedelta(milliseconds=50), slicer_callback)
+slicer.doEveryTimeInterval(timedelta(milliseconds=20), slicer_callback)
 
 # Find start time
 while reader.isRunning():
