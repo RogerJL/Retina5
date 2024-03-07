@@ -38,10 +38,8 @@ def slicer_callback(events_in: dv.EventStore):
     left_ = len(left_events)
     right_ = len(right_events)
     if right_ or left_:
-        first = (left_events.getLowestTime() if right_ == 0 else
-                 right_events.getLowestTime() if left_ == 0 else
-                 max(left_events.getLowestTime(), right_events.getLowestTime()))
-        last = max(left_events.getHighestTime(), right_events.getHighestTime())
+        first = events_in.getLowestTime()
+        last = events_in.getHighestTime()
         out = f"{first:20d}\t{last:20d}\t{last-first:7d} \tleft_events: {left_:3d} \tright_events: {right_ :3d} \t{'Left' if left_ > max(10, 2 * right_) else 'Right' if right_ > max(10, 2 * left_) else '-'}"
         print(out)
         #labels.write(out + "\n")
