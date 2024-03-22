@@ -2,7 +2,8 @@ import dv_processing as dv
 from datetime import timedelta
 from retina_process import SpikingNeurons
 from retina_visualizer import SlicingVisualizer
-import matplotlib.pyplot as plt
+import matplotlib
+matplotlib.use('qtagg')
 
 # Input store:
 reader = dv.io.MonoCameraRecording("data/dvSave-2024_02_22_15_26_03.aedat4") # cameraSerial)
@@ -16,9 +17,9 @@ region = dv.EventRegionFilter((0, 0, shape[0], shape[1]))
 output_events = dv.EventStore()
 
 our_shape = (shape[0] // 2, shape[1] // 2)
-layer1 = SpikingNeurons(shape=shape, syn_weight=0.05, tau_syn=0.1, tau_m=0.1)
-layer_left = SpikingNeurons(shape=shape, syn_weight=2, inhibit_weight=-1.6, tau_syn=0.2, tau_m=0.5, inhibit_x_offset=3, inhibit_y_delta=1)
-layer_right = SpikingNeurons(shape=shape, syn_weight=2, inhibit_weight=-1.6, tau_syn=0.2, tau_m=0.5, inhibit_x_offset=-3, inhibit_y_delta=1)
+layer1 = SpikingNeurons(id="in", shape=shape, syn_weight=0.05, tau_syn=0.1, tau_m=0.1)
+layer_left = SpikingNeurons(id="left", shape=shape, syn_weight=2, inhibit_weight=-1.6, tau_syn=0.2, tau_m=0.5, inhibit_x_offset=3, inhibit_y_delta=1)
+layer_right = SpikingNeurons(id="right", shape=shape, syn_weight=2, inhibit_weight=-1.6, tau_syn=0.2, tau_m=0.5, inhibit_x_offset=-3, inhibit_y_delta=1)
 
 #labels = open("labels.txt", "wt")
 

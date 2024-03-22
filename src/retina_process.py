@@ -1,7 +1,10 @@
+from typing import Tuple
+
 import dv_processing as dv
 from datetime import timedelta
 import numpy as np
 import matplotlib.pyplot as plt
+import cv2 as cv
 
 SYN_WEIGHT = 0.99
 TAU = 1
@@ -12,10 +15,16 @@ INHIBIT_WEIGHT = -3 / INHIBIT_AREA
 
 MAX_DT = 1000  # Timestamp ticks
 
+def scale_image(array, limits: Tuple[int | float, int | float]) -> np.ndarray:
+    array = np.maximum(array - limits[0], 0)
+    array = np.minimum(1, array / (limits[1] - limits[0])) # 0..1
+    return (255 * array).astype(np.uint8)
+
 class SpikingNeurons:
     def __init__(self, shape,
                  syn_weight=SYN_WEIGHT, tau_syn=TAU, tau_m=TAU, reset_level=RESET_LEVEL,
-                 inhibit_weight=INHIBIT_WEIGHT, inhibit_x_offset=0, inhibit_y_delta=0):
+                 inhibit_weight=INHIBIT_WEIGHT, inhibit_x_offset=0, inhibit_y_delta=0,
+                 id=""):
         # Constants
         self._syn_weight = syn_weight
         self._discharge_syn = 1 / tau_syn
@@ -37,11 +46,8 @@ class SpikingNeurons:
         self._inhibit_x_offset = inhibit_x_offset
         self._inhibit_y_delta = inhibit_y_delta
 
-        #cv.namedWindow("Preview", cv.WINDOW_NORMAL)
-        #cv.imshow("Preview", neurons.T)
-        self._fig, self._axs = plt.subplots(1, 2)
-
         # Run the event processing while the camera is connected
+        self.id = id
         self._plot_timestamp = 0
         self._prev_timestamp = dv.now()
 
@@ -58,7 +64,7 @@ class SpikingNeurons:
         vshape = self._neurons_v.shape
         self._neurons_v += (-min(1, dt * self._discharge_m) * self._neurons_v
                             + dt * self._discharge_m * self.R * self._neurons_i[self._x_offset:self._x_offset + vshape[0],
-                                                                                   self._y_offset:self._y_offset + vshape[1]])
+                                                                                self._y_offset:self._y_offset + vshape[1]])
         spiking = np.where(self._neurons_v > ACTIVATION_THRESHOLD)
         self._neurons_v[spiking] = RESET_LEVEL
         for x, y in zip(spiking[0], spiking[1]):
@@ -88,18 +94,15 @@ class SpikingNeurons:
         self.dynamic_simulation_step(next_timestamp)
 
         # Display
-        if next_timestamp - self._plot_timestamp > 1e6:
+        if True:  #next_timestamp - self._plot_timestamp > 1e6:
             # Generate and show a preview of recent tracking history
-            # cv.imshow("Preview", self._neurons.T)
-            title = "Right" if self._inhibit_x_offset < 0 else "Left" if self._inhibit_x_offset > 0 else "Input"
-            if title != "Left":
-                return
-            self._axs[0].imshow(self._neurons_i.T)
-            self._axs[0].title.set_text(title + " i")
-
-            self._axs[1].imshow(self._neurons_v.T)
-            self._axs[1].title.set_text(title + " v")
-            plt.pause(0.001)
+            neurons_i = self._neurons_i
+            if self._x_offset or self._inhibit_y_delta:
+                neurons_i = neurons_i[self._x_offset: , self._inhibit_y_delta:-self._inhibit_y_delta]
+            images = [scale_image(neurons_i.T, (-10, 10)),
+                      scale_image(self._neurons_v.T, (-ACTIVATION_THRESHOLD, ACTIVATION_THRESHOLD))]
+            cv.imshow("neuron " + str(self.id), cv.resize(cv.hconcat(list(images)), dsize=(0,0), fx=2, fy=2))
+            cv.waitKey(100)
 
             self._plot_timestamp = next_timestamp
 
